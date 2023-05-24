@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMoverment : MonoBehaviour
 {
+    public int PlayerIndex;
     private Rigidbody2D rb;
     private BoxCollider2D coll;
     [Header("移动参数")]
@@ -69,11 +70,20 @@ public class PlayerMoverment : MonoBehaviour
         {
             return;
         }
-        jumpPressed = Input.GetButtonDown("Jump");
-        jumpHeld = Input.GetButton("Jump");
-        crouchHeld = Input.GetButton("Crouch");
-        crouchPressed = Input.GetButtonDown("Crouch");
-
+        if(PlayerIndex == 0)
+        {
+            jumpPressed = Input.GetKey(KeyCode.W);
+            jumpHeld = Input.GetKey(KeyCode.W);
+            crouchHeld = Input.GetKey(KeyCode.S);
+            crouchPressed = Input.GetKey(KeyCode.S);
+        }
+        else if(PlayerIndex == 1)
+        {
+            jumpPressed = Input.GetKey(KeyCode.UpArrow);
+            jumpHeld = Input.GetKey(KeyCode.UpArrow);
+            crouchHeld = Input.GetKey(KeyCode.DownArrow);
+            crouchPressed = Input.GetKey(KeyCode.DownArrow);
+        }
     }
     private void FixedUpdate()
     {
@@ -132,7 +142,15 @@ public class PlayerMoverment : MonoBehaviour
         }
         else if (!isOnGround && isCrouch)
             StandUp();
-        xVelocity = Input.GetAxis("Horizontal");
+        if(PlayerIndex == 0)
+        {
+            xVelocity = Input.GetAxis("Horizontal0");
+        }
+        else if(PlayerIndex ==1)
+        {
+            xVelocity = Input.GetAxis("Horizontal1");
+        }
+        
         if (isCrouch)
             xVelocity /= crouchSpeedDivisor;
 
